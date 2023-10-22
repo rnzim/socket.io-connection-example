@@ -1,0 +1,29 @@
+<h1>Ola Index</h1>
+<input type="text"  id="msg">
+<button id="send">Enviar Msg</button>
+
+<div>
+    <p>chat</p>
+
+    <p id="cont"></p>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
+<script>
+    var socket = io('http://localhost:3000')
+    socket.emit('welcome',{nome: 'rnzim'})
+    socket.on('disconnect',()=>{
+        console.log('disconectado')
+    })
+    var send = document.getElementById('send')
+    var cont = document.getElementById('cont')
+    send.addEventListener('click',()=>{
+        var msg = document.getElementById('msg').value
+        socket.emit('msg',msg)
+    
+        socket.on('response',(response)=>{
+            cont.innerHTML += '<br>'+response
+        })
+    })
+   
+
+</script>
